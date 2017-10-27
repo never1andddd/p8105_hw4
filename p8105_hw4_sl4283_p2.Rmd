@@ -34,5 +34,7 @@ join_data = left_join(month_data, gdp_data, by = "date") %>%
   filter(!is.na(value)) %>%
   mutate(prez_gop = as.character(prez_gop),
          prez_gop = replace(prez_gop, prez_gop == "1", "gop"), 
-         prez_gop = replace(prez_gop, prez_gop == "0", "dem")) 
+         prez_gop = replace(prez_gop, prez_gop == "0", "dem"))%>%
+ group_by(prez_gop)%>%
+  ggplot(aes(x=date, y = value, group = prez_gop))+geom_point(aes(color = prez_gop))+geom_smooth(aes(color = prez_gop), se = FALSE)
 ```
