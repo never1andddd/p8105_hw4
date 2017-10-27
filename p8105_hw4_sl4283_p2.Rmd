@@ -1,0 +1,38 @@
+---
+title: "p8105_hw4_sl4283_p2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# get started
+library(tidyverse)
+library(janitor)
+library(haven)
+library(ggridges)
+library(ggthemes)
+library(lubridate)
+options(tibble.print_min = 3)
+```
+
+```{r}
+# load and tidy the data
+month_data = read_csv("./pols-month.csv") %>%
+  clean_names() %>%
+  mutate(date = floor_date(mon,"month"))
+
+gdp_data = read_csv("./GDP.csv") %>%
+  clean_names() %>%
+  mutate(date = floor_date(date,"month"))
+
+# Combine the data in pols-month.csv and GDP.csv based on the date 
+join_data = left_join(month_data, gdp_data, by = "date") %>%
+  mutate(value = as.numeric(value)) %>%
+  filter(!is.na(value)) %>%
+  mutate(prez_gop = as.character(prez_gop),
+         prez_gop = replace(prez_gop, prez_gop == "1", "gop"), 
+         prez_gop = replace(prez_gop, prez_gop == "0", "dem")) 
+```
