@@ -37,4 +37,7 @@ join_data = left_join(month_data, gdp_data, by = "date") %>%
          prez_gop = replace(prez_gop, prez_gop == "0", "dem"))%>%
  group_by(prez_gop)%>%
   ggplot(aes(x=date, y = value, group = prez_gop))+geom_point(aes(color = prez_gop))+geom_smooth(aes(color = prez_gop), se = FALSE)
+join_data
 ```
+
+**As we can see from the plot that two parties' GDP values increased during 1948-1980 and decreased after 1980. The type of party would change about every ten years. In 1940-1950, the values of GDP are highest when presidens were from the democratic party. The avrage values of democratic were higer than average values of the Republican Party.**
